@@ -1,79 +1,47 @@
-# ⚽ Tactical Intel Dashboard
-**Wolves 2–2 Arsenal — 18 Feb 2026**
+# Tactical Intel Dashboard
 
-A real analyst-grade football tactical dashboard built with React.
+Premier League tactical analytics dashboard built with React. Select any EPL team, pick a match, and view a full tactical breakdown — shot maps, possession momentum, intensity curves, press zones, and AI-generated tactical insights.
 
----
+## Features
 
-## 📊 About the Data
+- **Team & Match Selector** — all 20 EPL teams, last 20 finished matches per team
+- **Shot Map** — estimated shot positions on a canvas pitch with xG values
+- **Press Zones & Danger Zones** — modelled from possession and formation data
+- **15-Min Momentum Blocks** — possession splits interpolated per 15-min period
+- **Intensity / Fatigue Curves** — modelled from possession shifts and substitution timing
+- **Counter-Attack Log** — built from goal events and assist chains
+- **Tactical Insights** — auto-generated per-team analysis (risks, edges, actions)
+- **xG Shot Timeline** — bubble chart of all shots across 90 minutes
+- **Dynamic Team Colors** — colors update based on the teams playing
 
-### ✅ REAL data (from SportRadar API)
-- Final score, possession %, total shots, cards
-- Exact goal minutes: 5', 56' (Arsenal), 61', 90' (Wolves)
-- Real starting lineups (all 22 players)
-- Substitution minutes
+## Data Sources
 
-### ⚠️ Estimated from stats
-- Shot x/y positions (from typical shot zone models)
-- xG values (from shot zone probability tables)
-- 15-min possession splits (interpolated from 58/42 final)
-- Player intensity/fatigue curve (modelled from possession pattern)
-- Press zone positions (from tactical profiles)
+| Data | Source |
+|------|--------|
+| Score, goals, assists, cards, subs | football-data.org API (real) |
+| Possession, shots, corners, fouls | football-data.org API (when available) |
+| Lineups, formations | football-data.org API (when available) |
+| Shot x/y positions, xG values | Estimated from shot zone models |
+| 15-min possession splits | Interpolated from final possession % |
+| Intensity/fatigue curves | Modelled from possession + substitutions |
+| Press zones, danger zones | Modelled from possession dominance |
 
----
+## Setup
 
-## 🚀 How to Run Locally
+1. Get a free API key from [football-data.org](https://www.football-data.org/client/register) (10 req/min)
+2. Create a `.env` file in the project root:
+   ```
+   REACT_APP_FOOTBALL_API_KEY=your_token_here
+   ```
+3. Install and run:
+   ```
+   npm install
+   npm start
+   ```
 
-### Step 1 — Install Node.js
-Download from https://nodejs.org (choose "LTS" version)
-Check it installed: open Terminal and run:
-```
-node --version
-```
-You should see something like `v18.x.x`
+## Tech Stack
 
-### Step 2 — Download this project
-Unzip the project folder somewhere on your computer, e.g. your Desktop.
-
-### Step 3 — Open Terminal in the project folder
-**Mac:** Right-click the folder → "Open Terminal at Folder"
-**Windows:** Inside the folder, click the address bar, type `cmd`, press Enter
-
-### Step 4 — Install dependencies
-```
-npm install
-```
-Wait ~1 minute. This downloads React and all libraries.
-
-### Step 5 — Start the app
-```
-npm start
-```
-Your browser will open automatically at http://localhost:3000
-The dashboard is now running!
-
----
-
-## 🔧 Customising
-
-### Change the match data
-All match data is at the top of `src/App.js`:
-- `SHOTS` — add/edit shot events
-- `BLOCKS` — change 15-min possession numbers
-- `INTENSITY` — change the fatigue curve values
-- `INSIGHTS` — update the tactical text
-
-### Change teams/colours
-Find the `C` object near the top of `App.js`:
-```js
-const C = {
-  WOL: "#FDB913",   // Wolves gold
-  ARS: "#EF0107",   // Arsenal red
-  ...
-}
-```
-Replace with any team's hex colour.
-
----
-
-Built with React + Canvas API. No external chart libraries needed.
+- React 18 (CRA)
+- Canvas API for pitch and chart visualizations
+- football-data.org v4 API (free tier)
+- No external chart libraries
